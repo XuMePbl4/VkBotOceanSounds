@@ -5,14 +5,6 @@ class BotWords:
 
     def report(message):
 
-        ## Привет
-        #if message == "Привет":
-        #    return f"Привет-привет!"
-
-        ## Пока
-        #elif message == "Пока":
-        #    return f"Пока-пока!"
-
         if re.search(r'\bпривет\b', message):
             return f'привет :) '
     
@@ -34,7 +26,7 @@ class BotWords:
         elif re.search(r'\bотношения\b', message):
             return f"опять про отношения..."
 
-        elif re.search(r'\bможно?\b', message):
+        elif re.search(r'\bможно\b', message):
             return f"тебе все можно <3"
 
         elif re.search(r'\bжена\b', message):
@@ -83,12 +75,6 @@ class BotWords:
             return f"присоединяюсь к поздравлениям :)"
 
         elif re.search(r'\bПоздравляю\b', message):
-            return f"присоединяюсь к поздравлениям :)"
-
-        elif re.search(r'\bпоздравляю)\b', message):
-            return f"присоединяюсь к поздравлениям :)"
-
-        elif re.search(r'\bПоздравляю)\b', message):
             return f"присоединяюсь к поздравлениям :)"
 
         elif re.search(r'\bребята\b', message):

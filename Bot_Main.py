@@ -18,23 +18,24 @@ for event in longpoll.listen():
     print(event)
 
     if event.type == VkBotEventType.MESSAGE_NEW:
-        print('Новое сообщение:')
+        #print('Новое сообщение:')
 
-        print('От: ', end='')
-        if event.message.from_id < 0:
-            print('от бота')
-        else:
-            print(vk.users.get(user_id=event.message.from_id)[0]['first_name'])
+        #print('От: ', end='')
+        #if event.message.from_id < 0:
+        #    print('от бота')
+        #else:
+        #    print(vk.users.get(user_id=event.message.from_id)[0]['first_name'])
 
-        print('До:')
-        if event.message.from_id < 0:
-            print('до бота')
-        else:
-            print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
+        #print('До:')
+        #if event.message.from_id < 0:
+        #    print('до бота')
+        #else:
+        #    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
 
-        print('Текст: ', event.message.text)
+        #print('Текст: ', event.message.text)
         botanswer = BotWords.report(event.message.text)
         if botanswer != 'Нуль':
+            botanswer = vk.users.get(user_id=event.message.from_id)[0]['first_name'] + ', ' + botanswer
             vk.messages.send(random_id = int(time.time()), peer_id = event.message.peer_id, message = botanswer)
             #user_id идентификатор пользователя, которому отправляется сообщение. целое число
             #random_id уникальный (в привязке к API_ID и ID отправителя) идентификатор, предназначенный для предотвращения повторной отправки одинакового сообщения. Сохраняется вместе с сообщением и доступен в истории сообщений.
@@ -43,8 +44,8 @@ for event in longpoll.listen():
             #peer_id идентификатор назначения. Для групповой беседы: 2000000000 + id беседы
 
             #chat_id идентификатор беседы, к которой будет относиться сообщение. положительное число, максимальное значение 100000000
-        print('Ответ: ', )
-        print()
+        #print('Ответ: ', )
+        #print()
 
     #elif event.type == VkBotEventType.MESSAGE_REPLY:
     #    print('Новое сообщение:')

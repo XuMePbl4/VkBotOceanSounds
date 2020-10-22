@@ -35,7 +35,7 @@ for event in longpoll.listen():
         print('Текст: ', event.message.text)
         botanswer = BotWords.report(event.message.text)
         if botanswer != 'Нуль':
-            vk.messages.messages.send(user_id = event.message.from_id, random_id = int(time.time()), chat_id = event.message.peer_id, message = botanswer)
+            vk.messages.send(random_id = int(time.time()), peer_id = event.message.peer_id, message = botanswer)
             #user_id идентификатор пользователя, которому отправляется сообщение. целое число
             #random_id уникальный (в привязке к API_ID и ID отправителя) идентификатор, предназначенный для предотвращения повторной отправки одинакового сообщения. Сохраняется вместе с сообщением и доступен в истории сообщений.
 

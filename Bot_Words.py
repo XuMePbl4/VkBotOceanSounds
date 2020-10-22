@@ -64,8 +64,8 @@ class BotWords:
         elif re.search(r'\bкать\b', message):
             return f"кать кать кать"
 
-        elif re.search(r'\b\b', message):
-            return f""
+        elif re.search(r'\bхуйня\b', message):
+            return f"не матерись!"
 
         elif re.search(r'\bмяу\b', message):
             return f"мяу"

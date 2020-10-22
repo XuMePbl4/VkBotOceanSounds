@@ -15,7 +15,7 @@ print('Server started')
 
 for event in longpoll.listen():
 
-    print(event)
+    #print(event)
 
     if event.type == VkBotEventType.MESSAGE_NEW:
         #print('Новое сообщение:')
@@ -76,6 +76,6 @@ for event in longpoll.listen():
     #    print(vk.users.get(user_id=event.message.to_id)[0]['first_name'])
     #    print()
 
-    else:
-        print(event.type)
-        print()
+    #else:
+    #    print(event.type)
+    #    print()

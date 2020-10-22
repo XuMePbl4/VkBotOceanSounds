@@ -19,6 +19,99 @@ class BotWords:
         elif re.search(r'\bпока\b', message):
             return f"ну пока..."
 
+        elif re.search(r'\bпогода\b', message):
+            return f"погода супер."
+
+        elif re.search(r'\bпока\b', message):
+            return f"ну пока..."
+
+        elif re.search(r'\bлюблю\b', message):
+            return f"а я тебя люблю <3"
+
+        elif re.search(r'\bпиздец\b', message):
+            return f"зачем ругаешься, насяльника?"
+
+        elif re.search(r'\bотношения\b', message):
+            return f"опять про отношения..."
+
+        elif re.search(r'\bможно?\b', message):
+            return f"тебе все можно <3"
+
+        elif re.search(r'\bжена\b', message):
+            return f"жена на кухне, не отвлекай!"
+
+        elif re.search(r'\bжиза\b', message):
+            return f"эх, мне бы так..."
+
+        elif re.search(r'\bЖиза\b', message):
+            return f"эх, мне бы так..."
+
+        elif re.search(r'\bспать\b', message):
+            return f"спокойной ночи <3"
+
+        elif re.search(r'\bсопли\b', message):
+            return f"отставить сопли!"
+
+        elif re.search(r'\bхандра\b', message):
+            return f"отставить хандру!"
+
+        elif re.search(r'\bобнять\b', message):
+            return f"можно я тебя обниму?"
+
+        elif re.search(r'\bобнимашки\b', message):
+            return f"обнимашки!"
+
+        elif re.search(r'\bкать\b', message):
+            return f"кать кать кать"
+
+        elif re.search(r'\b\b', message):
+            return f""
+
+        elif re.search(r'\bмяу\b', message):
+            return f"мяу"
+
+        elif re.search(r'\bМяу\b', message):
+            return f"Мяу!"
+
+        elif re.search(r'\bмиу\b', message):
+            return f"миу-миу"
+
+        elif re.search(r'\bМиу\b', message):
+            return f"миу-миу!"
+
+        elif re.search(r'\bпоздравляю\b', message):
+            return f"присоединяюсь к поздравлениям :)"
+
+        elif re.search(r'\bПоздравляю\b', message):
+            return f"присоединяюсь к поздравлениям :)"
+
+        elif re.search(r'\bпоздравляю)\b', message):
+            return f"присоединяюсь к поздравлениям :)"
+
+        elif re.search(r'\bПоздравляю)\b', message):
+            return f"присоединяюсь к поздравлениям :)"
+
+        elif re.search(r'\bребята\b', message):
+            return f"и взрослые тоже"
+
+        elif re.search(r'\bРебята\b', message):
+            return f"и Взрослые тоже"
+
+        elif re.search(r'\bрак\b', message):
+            return f"гороскопы - туфта!"
+
+        elif re.search(r'\bРак\b', message):
+            return f"гороскопы - туфта!"
+
+        elif re.search(r'\bодна\b', message):
+            return f"я с тобой <3"
+
+        elif re.search(r'\bКусь\b', message):
+            return f"не кусайся!"
+
+        elif re.search(r'\bкусь\b', message):
+            return f"не кусайся!"
+
         elif re.search(r'\bсука\b', message):
             return f"не ругайся, а то по жепе выдеру."
 
@@ -78,9 +171,18 @@ class BotWords:
     
         elif re.search(r'\bженя\b', message):
             return f"Евгена нет, я за него. Что надо?"
+
+        elif re.search(r'\bЖеня\b', message):
+            return f"Евгена нет, я за него. Что надо?"
     
         elif re.search(r'\bXuMePbl4\b', message):
             return f"Евгена нет, я за него. Что надо?"
+
+        elif re.search(r'\bxumepbl4\b', message):
+            return f"Евгена нет, я за него. Что надо?"
+
+        elif re.search(r'\ball\b', message):
+            return f"сейчас тебе за это жопу надерут...?"
 
         else:
             return "Нуль"

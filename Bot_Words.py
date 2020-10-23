@@ -11,6 +11,9 @@ class BotWords:
         elif re.search(r'\b[П,п]ока\b', message):
             return f"ну пока..."
 
+        elif re.search(r'\b[Д,д]оброе утро\b', message):
+            return f"утро доброе!"
+
         elif re.search(r'\b[П,п]огода\b', message):
             return f"погода супер."
 
@@ -81,7 +84,7 @@ class BotWords:
             return f"не ругайся, а то по жепе выдеру."
 
         elif re.search(r'\b[Б,б]от', message):
-            return f"между прочим, боты очень логические существа. И кстати, раз я тебе пишу, значит я существую."
+            return f"между прочим, боты очень логические существа."
         
         elif re.search(r'\b[С,с]ерафим.\b', message):
             return f"где-то в небе разбудили ангела."
@@ -99,8 +102,7 @@ class BotWords:
             return f"Python - лучший язык программирования!" 
     
         elif re.search(r'\b[P,p]ython\b', message):
-            return f"Python - лучший язык программирования!" 
-    
+            return f"Python - лучший язык программирования!"     
 
         elif re.search(r'\b[С,с]тереотип[п,пы]\b', message):
             return f"сейчас Джонни взбесится..."    
@@ -115,7 +117,10 @@ class BotWords:
             return f"на**й бывших!"
     
         elif re.search(r'\b[Т,т]ак\b', message):
-            return f"так-так. оО"
+            return f"так-так оО"
+
+        elif re.search(r'\b[К,к]а', message):
+            return f"Кай мой младший братик. За него любого порву."
 
         elif re.search(r'\b[Ж,ж]ен.\b', message):
             return f"Евгена нет, я за него. Что надо?"

@@ -119,7 +119,7 @@ class BotWords:
         elif re.search(r'\b[Т,т]ак\b', message):
             return f"так-так оО"
 
-        elif re.search(r'\b[К,к]а', message):
+        elif re.search(r'\b[К,к]а[я,ю,й]\b', message):
             return f"Кай мой младший братик. За него любого порву."
 
         elif re.search(r'\b[Ж,ж]ен.\b', message):

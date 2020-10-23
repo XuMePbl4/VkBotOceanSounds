@@ -4,79 +4,97 @@ from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 
 from Bot_Words import BotWords
 
+x = 0
 
-vk_session = vk_api.VkApi(token='4842ab42fc8ab6aa6860269222be707fe712ab2f417086f766e39e84aeb7e04572610aa3adcb21f663bc7')
+while x < 100:
+    try:
 
-vk = vk_session.get_api() 
+        vk_session = vk_api.VkApi(token='4842ab42fc8ab6aa6860269222be707fe712ab2f417086f766e39e84aeb7e04572610aa3adcb21f663bc7')
 
-longpoll = VkBotLongPoll(vk_session, '198202940')
+        vk = vk_session.get_api() 
 
-print('Server started')
+        longpoll = VkBotLongPoll(vk_session, '198202940')
 
-for event in longpoll.listen():
+        if x == 0:
+            print('Server started')
+        else:
+            print('Server started again')
 
-    #print(event)
+        print('')
+                    
+        for event in longpoll.listen():
 
-    if event.type == VkBotEventType.MESSAGE_NEW:
-        #print('Новое сообщение:')
+            #print(event)
 
-        #print('От: ', end='')
-        #if event.message.from_id < 0:
-        #    print('от бота')
-        #else:
-        #    print(vk.users.get(user_id=event.message.from_id)[0]['first_name'])
+            if event.type == VkBotEventType.MESSAGE_NEW:
+                #print('Новое сообщение:')
 
-        #print('До:')
-        #if event.message.from_id < 0:
-        #    print('до бота')
-        #else:
-        #    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
+                #print('От: ', end='')
+                #if event.message.from_id < 0:
+                #    print('от бота')
+                #else:
+                #    print(vk.users.get(user_id=event.message.from_id)[0]['first_name'])
 
-        #print('Текст: ', event.message.text)
-        botanswer = BotWords.report(event.message.text)
-        if botanswer != 'Нуль':
-            botanswer = vk.users.get(user_id=event.message.from_id)[0]['first_name'] + ', ' + botanswer
-            print(botanswer)
-            vk.messages.send(random_id = int(time.time()), peer_id = event.message.peer_id, message = botanswer)
-            #user_id идентификатор пользователя, которому отправляется сообщение. целое число
-            #random_id уникальный (в привязке к API_ID и ID отправителя) идентификатор, предназначенный для предотвращения повторной отправки одинакового сообщения. Сохраняется вместе с сообщением и доступен в истории сообщений.
+                #print('До:')
+                #if event.message.from_id < 0:
+                #    print('до бота')
+                #else:
+                #    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
 
-            #Заданный random_id используется для проверки уникальности за всю историю сообщений, поэтому используйте большой диапазон (до int32). целое число, доступен начиная с версии 5.45
-            #peer_id идентификатор назначения. Для групповой беседы: 2000000000 + id беседы
+                #print('Текст: ', event.message.text)
+                botanswer = BotWords.report(event.message.text)
+                if botanswer != 'Нуль':
+                    FN =  vk.users.get(user_id=event.message.from_id)[0]['first_name']
+                    LN =  vk.users.get(user_id=event.message.from_id)[0]['last_name']
+                    print(LN + ' ' + FN + ' ' + event.message.text)
+                    botanswer = FN + ', ' + botanswer
+                    print('i am: ' + botanswer)
+                    print('')
+                    vk.messages.send(random_id = int(time.time()), peer_id = event.message.peer_id, message = botanswer)
+                    #user_id идентификатор пользователя, которому отправляется сообщение. целое число
+                    #random_id уникальный (в привязке к API_ID и ID отправителя) идентификатор, предназначенный для предотвращения повторной отправки одинакового сообщения. Сохраняется вместе с сообщением и доступен в истории сообщений.
 
-            #chat_id идентификатор беседы, к которой будет относиться сообщение. положительное число, максимальное значение 100000000
-        #print('Ответ: ', )
-        #print()
+                    #Заданный random_id используется для проверки уникальности за всю историю сообщений, поэтому используйте большой диапазон (до int32). целое число, доступен начиная с версии 5.45
+                    #peer_id идентификатор назначения. Для групповой беседы: 2000000000 + id беседы
 
-    #elif event.type == VkBotEventType.MESSAGE_REPLY:
-    #    print('Новое сообщение:')
+                    #chat_id идентификатор беседы, к которой будет относиться сообщение. положительное число, максимальное значение 100000000
+                #print('Ответ: ', )
+                #print()
 
-    #    print('От:')
-    #    if event.message.from_id < 0:
-    #        print('от бота')
-    #    else:
-    #        print(vk.users.get(user_id=event.message.from_id)[0]['first_name'])
+            #elif event.type == VkBotEventType.MESSAGE_REPLY:
+            #    print('Новое сообщение:')
 
-    #    print('До:')
-    #    if event.message.from_id < 0:
-    #        print('до бота')
-    #    else:
-    #        print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
+            #    print('От:')
+            #    if event.message.from_id < 0:
+            #        print('от бота')
+            #    else:
+            #        print(vk.users.get(user_id=event.message.from_id)[0]['first_name'])
 
-    #    print('Текст: ', event.message.text)
-    #    print('Ответ: ', BotWords.report(event.message.text))
-    #    print()
+            #    print('До:')
+            #    if event.message.from_id < 0:
+            #        print('до бота')
+            #    else:
+            #        print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
 
-    #elif event.type == VkBotEventType.MESSAGE_TYPING_STATE:
-    #    print('Печатает ', end='')
+            #    print('Текст: ', event.message.text)
+            #    print('Ответ: ', BotWords.report(event.message.text))
+            #    print()
 
-    #    print(vk.users.get(user_id=event.message.from_id)[0]['first_name'], end=' ')
+            #elif event.type == VkBotEventType.MESSAGE_TYPING_STATE:
+            #    print('Печатает ', end='')
 
-    #    print('для ', end='')
+            #    print(vk.users.get(user_id=event.message.from_id)[0]['first_name'], end=' ')
 
-    #    print(vk.users.get(user_id=event.message.to_id)[0]['first_name'])
-    #    print()
+            #    print('для ', end='')
 
-    #else:
-    #    print(event.type)
-    #    print()
+            #    print(vk.users.get(user_id=event.message.to_id)[0]['first_name'])
+            #    print()
+
+            #else:
+            #    print(event.type)
+            #    print()
+    except:
+        x = x +1
+        print('some error')
+print('Error more than 9000!')
+            

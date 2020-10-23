@@ -5,170 +5,132 @@ class BotWords:
 
     def report(message):
 
-        if re.search(r'\bпривет\b', message):
+        if re.search(r'\b[П,п]ривет\b', message):
             return f'привет :) '
     
-        elif re.search(r'\bпока\b', message):
+        elif re.search(r'\b[П,п]ока\b', message):
             return f"ну пока..."
 
-        elif re.search(r'\bпогода\b', message):
+        elif re.search(r'\b[П,п]огода\b', message):
             return f"погода супер."
 
-        elif re.search(r'\bпока\b', message):
+        elif re.search(r'\b[П,п]ока\b', message):
             return f"ну пока..."
 
-        elif re.search(r'\bлюблю\b', message):
+        elif re.search(r'\b[Л,л]юблю\b', message):
             return f"а я тебя люблю <3"
 
-        elif re.search(r'\bпиздец\b', message):
+        elif re.search(r'\b[П,п]издец\b', message):
             return f"зачем ругаешься, насяльника?"
 
-        elif re.search(r'\bотношения\b', message):
+        elif re.search(r'\b[О,о]тношения\b', message):
             return f"опять про отношения..."
 
-        elif re.search(r'\bможно\b', message):
+        elif re.search(r'\b[М,м]ожно\b', message):
             return f"тебе все можно <3"
 
-        elif re.search(r'\bжена\b', message):
+        elif re.search(r'\b[Ж,ж]ена\b', message):
             return f"жена на кухне, не отвлекай!"
 
-        elif re.search(r'\bжиза\b', message):
+        elif re.search(r'\b[Ж,ж]иза\b', message):
             return f"эх, мне бы так..."
 
-        elif re.search(r'\bЖиза\b', message):
-            return f"эх, мне бы так..."
-
-        elif re.search(r'\bспать\b', message):
+        elif re.search(r'\b[С,с]пать\b', message):
             return f"спокойной ночи <3"
 
-        elif re.search(r'\bсопли\b', message):
+        elif re.search(r'\b[С,с]опли\b', message):
             return f"отставить сопли!"
 
-        elif re.search(r'\bхандра\b', message):
+        elif re.search(r'\b[Х,х]андра\b', message):
             return f"отставить хандру!"
 
-        elif re.search(r'\bобнять\b', message):
+        elif re.search(r'\b[О,о]бнять\b', message):
             return f"можно я тебя обниму?"
 
-        elif re.search(r'\bобнимашки\b', message):
+        elif re.search(r'\b[О,о]бнимашки\b', message):
             return f"обнимашки!"
 
-        elif re.search(r'\bкать\b', message):
+        elif re.search(r'\b[К,к]ать\b', message):
             return f"кать кать кать"
 
-        elif re.search(r'\bхуйня\b', message):
+        elif re.search(r'[Х,х,X,x][Y,y,У,у][Й,й,y,Y,u,U]', message):
             return f"не матерись!"
 
-        elif re.search(r'\bмяу\b', message):
+        elif re.search(r'\b[М,м]яу\b', message):
             return f"мяу"
 
-        elif re.search(r'\bМяу\b', message):
-            return f"Мяу!"
-
-        elif re.search(r'\bмиу\b', message):
-            return f"миу-миу"
-
-        elif re.search(r'\bМиу\b', message):
+        elif re.search(r'\b[М,м]иу\b', message):
             return f"миу-миу!"
 
-        elif re.search(r'\bпоздравляю\b', message):
+        elif re.search(r'\b[П,п]оздравляю\b', message):
             return f"присоединяюсь к поздравлениям :)"
 
-        elif re.search(r'\bПоздравляю\b', message):
-            return f"присоединяюсь к поздравлениям :)"
-
-        elif re.search(r'\bребята\b', message):
-            return f"и взрослые тоже"
-
-        elif re.search(r'\bРебята\b', message):
+        elif re.search(r'\b[Р,р]ебята\b', message):
             return f"и Взрослые тоже"
 
-        elif re.search(r'\bрак\b', message):
+        elif re.search(r'\b[Р,р]ак\b', message):
             return f"гороскопы - туфта!"
 
-        elif re.search(r'\bРак\b', message):
-            return f"гороскопы - туфта!"
-
-        elif re.search(r'\bодна\b', message):
+        elif re.search(r'\b[О,о]дна\b', message):
             return f"я с тобой <3"
 
-        elif re.search(r'\bКусь\b', message):
+        elif re.search(r'\b[К,к]усь\b', message):
             return f"не кусайся!"
 
-        elif re.search(r'\bкусь\b', message):
-            return f"не кусайся!"
-
-        elif re.search(r'\bсука\b', message):
+        elif re.search(r'\b[С,с]ука\b', message):
             return f"не ругайся, а то по жепе выдеру."
 
-        elif re.search(r'\bхуй\b', message):
-            return f"***"
-
-        elif re.search(r'\bбот\b', message):
+        elif re.search(r'\b[Б,б]от\b', message):
             return f"между прочим, боты очень логические существа. И кстати, раз я тебе пишу, значит я существую."
-
-        elif re.search(r'\bсерафима\b', message):
-            return f"где-то в небе разбудили ангела."
-
-        elif re.search(r'\bджесс\b', message):
-            return f"теперь с тебя 100 рублей для Джесс"
-
-        elif re.search(r'\bваня\b', message):
-            return f"не буди Ваньку-Встаньку! А то встанет и вставит :Р"
-
-        elif re.search(r'\bегор\b', message):
-            return f"что ты наделал? сейчас ми-ми-ми картинки прилетят в чат!"
         
-        elif re.search(r'\bСерафима\b', message):
+        elif re.search(r'\b[С,с]ерафима\b', message):
             return f"где-то в небе разбудили ангела."
 
-        elif re.search(r'\bДжесс\b', message):
+        elif re.search(r'\b[Д,д]жесс\b', message):
             return f"теперь с тебя 100 рублей для Джесс"
 
-        elif re.search(r'\bВаня\b', message):
+        elif re.search(r'\b[В,в]аня\b', message):
             return f"не буди Ваньку-Встаньку! А то встанет и вставит :Р"
 
-        elif re.search(r'\bЕгор\b', message):
+        elif re.search(r'\b[Е,е]гор\b', message):
             return f"что ты наделал? сейчас ми-ми-ми картинки прилетят в чат!"
    
-        elif re.search(r'\bпитон\b', message):
+        elif re.search(r'\b[П,п]итон\b', message):
             return f"Python - лучший язык программирования!" 
     
-        elif re.search(r'\bPython\b', message):
+        elif re.search(r'\b[P,p]ython\b', message):
             return f"Python - лучший язык программирования!" 
     
-        elif re.search(r'\bстереотип\b', message):
-            return f"сейчас Джонни взбесится..."
 
-        elif re.search(r'\bстереотипы\b', message):
+        elif re.search(r'\b[С,с]тереотип[п,пы]\b', message):
             return f"сейчас Джонни взбесится..."    
     
-        elif re.search(r'\bалександрос\b', message):
+        elif re.search(r'\b[А,а]лександрос\b', message):
             return f"только не говори о СССР-Тян!"
     
-        elif re.search(r'\bромка\b', message):
+        elif re.search(r'\b[Р,р]омка\b', message):
             return f"хватит Ромку мучать, не мешайте нам с ним бухать!"
     
-        elif re.search(r'\bбывший\b', message):
+        elif re.search(r'\b[Б,б]ывший\b', message):
             return f"на**й бывших!"
     
-        elif re.search(r'\bтак\b', message):
+        elif re.search(r'\b[Т,т]ак\b', message):
             return f"так-так. оО"
-    
-        elif re.search(r'\bженя\b', message):
-            return f"Евгена нет, я за него. Что надо?"
 
-        elif re.search(r'\bЖеня\b', message):
+        elif re.search(r'\b[Ж,ж]еня\b', message):
             return f"Евгена нет, я за него. Что надо?"
     
         elif re.search(r'\bXuMePbl4\b', message):
             return f"Евгена нет, я за него. Что надо?"
 
-        elif re.search(r'\bxumepbl4\b', message):
+        elif re.search(r'\b[X,x]umepbl4\b', message):
             return f"Евгена нет, я за него. Что надо?"
 
-        elif re.search(r'\ball\b', message):
+        elif re.search(r'\b[A,a]ll\b', message):
             return f"сейчас тебе за это жопу надерут...?"
+        
+        elif re.search(r'\[Г,г]рустно\b', message):
+            return f"почему грустишь? :с"
 
         else:
             return "Нуль"

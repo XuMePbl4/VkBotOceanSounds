@@ -1,5 +1,6 @@
 import vk_api
 import time
+import random
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 
 from Bot_Words import BotWords
@@ -32,6 +33,7 @@ while x < 100:
         print('')
         lastword = ''
         repeated = 0
+        nr = 0
                     
         for event in longpoll.listen():
 
@@ -59,20 +61,24 @@ while x < 100:
                         if lastword == botanswer:
                             repeated = repeated + 1
                             if (repeated == 1):
-                                lastword = botanswer
-                                writemessage(event, vk, botanswer) #тут надо пришить ответ-аналог
-                                print('До:')
-                                if event.message.from_id < 0:
-                                    print('до бота')
+                                nr = random.randint(0, 9)
+                                if nr < 2:
+                                    lastword = botanswer
+                                    writemessage(event, vk, botanswer) #тут надо пришить ответ-аналог
+                                    print('До:')
+                                    if event.message.from_id < 0:
+                                        print('до бота')
+                                    else:
+                                        print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
+                                    print('i am: ' + botanswer)
+                                    print('')
+                                    #user_id идентификатор пользователя, которому отправляется сообщение. целое число
+                                    #random_id уникальный (в привязке к API_ID и ID отправителя) идентификатор, предназначенный для предотвращения повторной отправки одинакового сообщения. Сохраняется вместе с сообщением и доступен в истории сообщений.
+                                    #Заданный random_id используется для проверки уникальности за всю историю сообщений, поэтому используйте большой диапазон (до int32). целое число, доступен начиная с версии 5.45
+                                    #peer_id идентификатор назначения. Для групповой беседы: 2000000000 + id беседы
+                                    #chat_id идентификатор беседы, к которой будет относиться сообщение. положительное число, максимальное значение 100000000
                                 else:
-                                    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
-                                print('i am: ' + botanswer)
-                                print('')
-                                #user_id идентификатор пользователя, которому отправляется сообщение. целое число
-                                #random_id уникальный (в привязке к API_ID и ID отправителя) идентификатор, предназначенный для предотвращения повторной отправки одинакового сообщения. Сохраняется вместе с сообщением и доступен в истории сообщений.
-                                #Заданный random_id используется для проверки уникальности за всю историю сообщений, поэтому используйте большой диапазон (до int32). целое число, доступен начиная с версии 5.45
-                                #peer_id идентификатор назначения. Для групповой беседы: 2000000000 + id беседы
-                                #chat_id идентификатор беседы, к которой будет относиться сообщение. положительное число, максимальное значение 100000000
+                                    print('Кубики сломались')
                             elif repeated >3:
                                 repeated = 0
                         else:
@@ -122,6 +128,10 @@ while x < 100:
             #    print(event.type)
             #    print()
     except:
+        try:
+            print(event)
+        except:
+            print('хрен пойми что случилось')
         x = x +1
         print('some error')
 print('Error more than 9000!')

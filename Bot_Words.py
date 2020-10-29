@@ -1,9 +1,10 @@
-import re
+import re #Библиотека регулярных выражений
 
 class BotWords:
-    #def __init__(self, message):
 
     def report(message):
+        #Через регулярные выражения определяем сообщение и ищем ответ
+        #https://habr.com/ru/post/349860/
 
         if re.search(r'\b[П,п]ривет\b', message):
             return f'привет :) '
@@ -83,6 +84,7 @@ class BotWords:
         elif re.search(r'\b[С,с]ука\b', message):
             return f"не ругайся, а то по жепе выдеру."
 
+        #Убрал, больно часто повторяется
         #elif re.search(r'\b[Б,б]от', message):
         #    return f"между прочим, боты очень логические существа."
         
@@ -116,6 +118,7 @@ class BotWords:
         elif re.search(r'\b[Б,б]ывш..\b', message):
             return f"на**й бывших!"
     
+        #Тоже часто повторяется
         #elif re.search(r'\b[Т,т]ак\b', message):
         #    return f"так-так оО"
 

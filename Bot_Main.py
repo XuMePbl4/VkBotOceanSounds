@@ -1,138 +1,115 @@
-import vk_api
-import time
-import random
-from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
+import vk_api #библиотеки вк
+import time #время
+import random #рандом
+from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType #Библиотеки бота группы ВК
 
-from Bot_Words import BotWords
+from Bot_Words import BotWords #класс с ответами
+
+#Блок размышлений +
+#Прикрутить базу данных - добавлять туда людей, кому бот что-то писал
+#https://habr.com/ru/post/321510/
+
+#Модифицировать и вынести в отдельную процедурку проверку на нужность отправки сообщения
+
+#Сделать нормально в отдельной процедуре шансы на отправление сообщения и фильтрацию повторов
+
+#Блок размышлений -
+
 
 def writemessage(event, vk, botanswer):
-    FN =  vk.users.get(user_id=event.message.from_id)[0]['first_name']
-    LN =  vk.users.get(user_id=event.message.from_id)[0]['last_name']
-    print(LN + ' ' + FN + ' ' + event.message.text)
-    botanswer = FN + ', ' + botanswer
+    FN =  vk.users.get(user_id=event.message.from_id)[0]['first_name'] #Имя изверя
+    LN =  vk.users.get(user_id=event.message.from_id)[0]['last_name'] #Фамилия юзверя
+    #print(LN + ' ' + FN + ' ' + event.message.text)
+    botanswer = FN + ', ' + botanswer #Добавим к ответу имя юзверя. Не рекомендую отвечать через уникальные ссылки/цитирования, чтобы не дергать человека лишний раз
     #print('i am: ' + botanswer)
     #print('')
-    vk.messages.send(random_id = int(time.time()), peer_id = event.message.peer_id, message = botanswer)
+    vk.messages.send(random_id = int(time.time()), peer_id = event.message.peer_id, message = botanswer) 
+    #Метод вк - отправить сообщение. гуглить тут https://vk.com/dev/messages
+    #Первый параметр обязательно хотя бы немного уникальный
+    #Пир_ид - из какого чата
+    #месага - само сообщение
 
 x = 0
 
 while x < 100:
     try:
 
-        vk_session = vk_api.VkApi(token='4842ab42fc8ab6aa6860269222be707fe712ab2f417086f766e39e84aeb7e04572610aa3adcb21f663bc7')
+        vk_session = vk_api.VkApi(token='4842ab42fc8ab6aa6860269222be707fe712ab2f417086f766e39e84aeb7e04572610aa3adcb21f663bc7') #Авторизация в вк через сообщество
 
-        vk = vk_session.get_api() 
+        vk = vk_session.get_api() #Получаем доступ к методам ВК
 
-        longpoll = VkBotLongPoll(vk_session, '198202940')
+        longpoll = VkBotLongPoll(vk_session, '198202940') #Получаем доступ к боту
 
-        if x == 0:
+        if x == 0: #Счетчик запусков бота
             print('Server started')
         else:
             print('Server started again')
 
         print('')
-        lastword = ''
-        repeated = 0
-        nr = 0
+        lastword = '' #Предыдущий ответ
+        repeated = 0 #счетчик повторений ответов бота
                     
-        for event in longpoll.listen():
+        for event in longpoll.listen(): #каждый эвент на сервере вк для нашего бота
 
             #print(event)
 
-            if event.type == VkBotEventType.MESSAGE_NEW:
-                #print('Новое сообщение:')
+            if event.type == VkBotEventType.MESSAGE_NEW: #Если новое сообщение в конфе
 
-                #print('От: ', end='')
-                #if event.message.from_id < 0:
-                #    print('от бота')
-                #else:
-                #    print(vk.users.get(user_id=event.message.from_id)[0]['first_name'])
+                if event.message.from_id > 0: #Айди ботов меньше нуля. Нужно фильтровать, чтобы не крашился метод получения имени юзверя (на ботов ошибку вк отдает)
+                    botanswer = BotWords.report(event.message.text) #Получаем ответ от БотВордс 
+                    if botanswer != 'Нуль': #Бот нашел ответ на сообщение в своей базе
+                        if lastword == botanswer: #Если он так же уже отвечал
+                            repeated = repeated + 1 #Значит плюс к счетчику повтора
+                            if (repeated == 1): #Если первые раз
+                                  
+                                if nr < random.randint(0, 9): #Бахнем шанс на ответ
+                                    lastword = botanswer #Запомним ответ
+                                    writemessage(event, vk, botanswer) #отправим в чат
 
-                #print('До:')
-                #if event.message.from_id < 0:
-                #    print('до бота')
-                #else:
-                #    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
+                                    ##Для отладки в терминале
+                                    #print('До:')
+                                    #if event.message.from_id < 0:
+                                    #    print('до бота')
+                                    #else:
+                                    #    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
+                                    #print('i am: ' + botanswer)
+                                    #print('')
 
-                #print('Текст: ', event.message.text)
-                if event.message.from_id > 0:
-                    botanswer = BotWords.report(event.message.text)
-                    if botanswer != 'Нуль':
-                        if lastword == botanswer:
-                            repeated = repeated + 1
-                            if (repeated == 1):
-                                nr = random.randint(0, 9)
-                                if nr < 2:
-                                    lastword = botanswer
-                                    writemessage(event, vk, botanswer) #тут надо пришить ответ-аналог
-                                    print('До:')
-                                    if event.message.from_id < 0:
-                                        print('до бота')
-                                    else:
-                                        print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
-                                    print('i am: ' + botanswer)
-                                    print('')
-                                    #user_id идентификатор пользователя, которому отправляется сообщение. целое число
-                                    #random_id уникальный (в привязке к API_ID и ID отправителя) идентификатор, предназначенный для предотвращения повторной отправки одинакового сообщения. Сохраняется вместе с сообщением и доступен в истории сообщений.
-                                    #Заданный random_id используется для проверки уникальности за всю историю сообщений, поэтому используйте большой диапазон (до int32). целое число, доступен начиная с версии 5.45
-                                    #peer_id идентификатор назначения. Для групповой беседы: 2000000000 + id беседы
-                                    #chat_id идентификатор беседы, к которой будет относиться сообщение. положительное число, максимальное значение 100000000
                                 else:
-                                    print('Кубики сломались')
-                            elif repeated >3:
+                                    print('Кубики сломались') #не повезло с шансом
+                            elif repeated >3: #если третий раз повтор - сбрасывает счетчик повторов
                                 repeated = 0
-                        else:
-                            writemessage(event, vk, botanswer)
-                            print('До:')
-                            if event.message.from_id < 0:
-                                print('до бота')
-                            else:
-                                print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
-                            print('i am: ' + botanswer)
-                            print('')
-                            lastword = botanswer
-                            repeated = 0
-                    #print('Ответ: ', )
-                    #print()
+                        else: #Если новый ответ 
+                            writemessage(event, vk, botanswer) #отправим в чат
 
+                            ##Для отладки в терминале
+                            #print('До:')
+                            #if event.message.from_id < 0:
+                            #    print('до бота')
+                            #else:
+                            #    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
+                            #print('i am: ' + botanswer)
+                            #print('')
+                            lastword = botanswer #запомним ответ
+                            repeated = 0 #сбросим повтор
+                    
+            #Другие виды эвентов вк. Проверить можно, отладив метод VkBotEventType
             #elif event.type == VkBotEventType.MESSAGE_REPLY:
-            #    print('Новое сообщение:')
-
-            #    print('От:')
-            #    if event.message.from_id < 0:
-            #        print('от бота')
-            #    else:
-            #        print(vk.users.get(user_id=event.message.from_id)[0]['first_name'])
-
-            #    print('До:')
-            #    if event.message.from_id < 0:
-            #        print('до бота')
-            #    else:
-            #        print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
-
-            #    print('Текст: ', event.message.text)
-            #    print('Ответ: ', BotWords.report(event.message.text))
-            #    print()
-
+            
             #elif event.type == VkBotEventType.MESSAGE_TYPING_STATE:
-            #    print('Печатает ', end='')
+            
+            #else: #Не понятно, что за эвент
 
-            #    print(vk.users.get(user_id=event.message.from_id)[0]['first_name'], end=' ')
-
-            #    print('для ', end='')
-
-            #    print(vk.users.get(user_id=event.message.to_id)[0]['first_name'])
-            #    print()
-
-            #else:
+            ##Для отладки в терминале
             #    print(event.type)
             #    print()
-    except:
+
+    except: #Сломалось что-то
         try:
-            print(event)
+            print(event) #попробуем узнать, что было последним
         except:
             print('хрен пойми что случилось')
-        x = x +1
+        x = x +1 #счетчик ошибок
         print('some error')
-print('Error more than 9000!')
+print('Error more than 9000!') #все, конец
             

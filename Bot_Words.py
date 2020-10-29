@@ -83,8 +83,8 @@ class BotWords:
         elif re.search(r'\b[С,с]ука\b', message):
             return f"не ругайся, а то по жепе выдеру."
 
-        elif re.search(r'\b[Б,б]от', message):
-            return f"между прочим, боты очень логические существа."
+        #elif re.search(r'\b[Б,б]от', message):
+        #    return f"между прочим, боты очень логические существа."
         
         elif re.search(r'\b[С,с]ерафим.\b', message):
             return f"где-то в небе разбудили ангела."
@@ -116,11 +116,11 @@ class BotWords:
         elif re.search(r'\b[Б,б]ывш..\b', message):
             return f"на**й бывших!"
     
-        elif re.search(r'\b[Т,т]ак\b', message):
-            return f"так-так оО"
+        #elif re.search(r'\b[Т,т]ак\b', message):
+        #    return f"так-так оО"
 
-        elif re.search(r'\b[К,к]а[я,ю,й]\b', message):
-            return f"Кай мой младший братик. За него любого порву."
+        #elif re.search(r'\b[К,к]а[я,ю,й]\b', message):
+        #    return f"Кай мой младший братик. За него любого порву."
 
         elif re.search(r'\b[Ж,ж]ен.\b', message):
             return f"Евгена нет, я за него. Что надо?"

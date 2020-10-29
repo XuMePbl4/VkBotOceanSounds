@@ -4,7 +4,7 @@ import re #Библиотека регулярных выражений
 #https://habr.com/ru/post/349860/
 import sqlite3 #для базы данных
 
-class BotWords:
+class BotWordsInit:
 
     def report(message): #Основная процедура класса
 
@@ -35,16 +35,19 @@ class BotWords:
 
         if len(sqlanswer) >= 1:
             if sqlanswer[0][1] == 1:
-                Answer = BaseMessage(message)
+                Answer = BotWords.BaseMessage(message)
             elif sqlanswer[0][1] == 2:
-                Answer = ServiceMessage(message)
+                Answer = BotWords.ServiceMessage(message)
             elif sqlanswer[0][1] == 3:
-                Answer = EntertainingMessage(message)
+                Answer = BotWords.EntertainingMessage(message)
 
         #Не забываем закрыть соединение с базой данных
         conn.close()
 
         return Answer
+
+
+class BotWords:
 
     def BaseMessage(message): #базовое
         if re.search(r'\b[П,п]ривет\b', message):

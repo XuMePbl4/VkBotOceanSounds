@@ -3,7 +3,7 @@ import time #время
 import random #рандом
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType #Библиотеки бота группы ВК
 
-from Bot_Words import BotWords #класс с ответами
+from Bot_Words import BotWordsInit #класс с ответами
 
 #Блок размышлений +
 #Прикрутить базу данных - добавлять туда людей, кому бот что-то писал
@@ -56,7 +56,7 @@ while x < 100:
             if event.type == VkBotEventType.MESSAGE_NEW: #Если новое сообщение в конфе
 
                 if event.message.from_id > 0: #Айди ботов меньше нуля. Нужно фильтровать, чтобы не крашился метод получения имени юзверя (на ботов ошибку вк отдает)
-                    botanswer = BotWords.report(event.message.text) #Получаем ответ от БотВордс 
+                    botanswer = BotWordsInit.report(event.message.text) #Получаем ответ от БотВордс 
                     if botanswer != 'Нуль': #Бот нашел ответ на сообщение в своей базе
                         if lastword == botanswer: #Если он так же уже отвечал
                             repeated = repeated + 1 #Значит плюс к счетчику повтора

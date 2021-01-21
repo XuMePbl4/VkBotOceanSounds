@@ -60,9 +60,9 @@ while x < 100:
                     if botanswer != 'Нуль': #Бот нашел ответ на сообщение в своей базе
                         if lastword == botanswer: #Если он так же уже отвечал
                             repeated = repeated + 1 #Значит плюс к счетчику повтора
-                            if (repeated == 1): #Если первые раз
+                            if (repeated <5): #Если первый раз
                                   
-                                if nr < random.randint(0, 9): #Бахнем шанс на ответ
+                                if 7 < random.randint(0, 9): #Бахнем шанс на ответ
                                     lastword = botanswer #Запомним ответ
                                     writemessage(event, vk, botanswer) #отправим в чат
 
@@ -75,9 +75,9 @@ while x < 100:
                                     #print('i am: ' + botanswer)
                                     #print('')
 
-                                else:
-                                    print('Кубики сломались') #не повезло с шансом
-                            elif repeated >3: #если третий раз повтор - сбрасывает счетчик повторов
+                                #else:
+                                    #print('Кубики сломались') #не повезло с шансом
+                            elif repeated >5: #если третий раз повтор - сбрасывает счетчик повторов
                                 repeated = 0
                         else: #Если новый ответ 
                             writemessage(event, vk, botanswer) #отправим в чат

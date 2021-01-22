@@ -6,10 +6,8 @@ import sqlite3 #для базы данных
 
 import time #время
 import vk_api #библиотеки вк
-from vk_api import audio
 import vk_audio
 import lxml
-from itertools import islice
 
 import requests
 import bs4
@@ -50,6 +48,47 @@ class BotWordsInit:
 
         return Answer
 
+class BotSound:
+    def SoundData(user_id,a1,a2,a3):
+        try:
+            authorizationFile = open('authorization.txt', 'r')
+            data = authorizationFile.read()
+            data = data.split()
+            vk_login = data[0]
+            vk_password = data[1]
+            vk_appid = data[2]
+            vk_user_id = data[3]
+            vk_state = data[4]
+            authorizationFile.close()
+    
+            vk_sX = vk_api.VkApi(login=vk_login, password=vk_password, captcha_handler=BotService.captcha_handler)
+            try:
+                vk_sX.auth()
+            except vk_api.AuthError as error_msg:
+                print(error_msg)
+    
+            vkX = vk_audio.VkAudio(vk=vk_sX)
+            DataMusic = vkX.load(user_id)
+            if DataMusic == False:
+                answer = 'Досуп к твоим аудиозаписям закрыт :('
+            elif DataMusic.Count > 0:
+                rnd_music = random.randint(1, DataMusic.Count-1)
+                VarT = random.randint(1, 3)
+                NameVarT = "a"+str(VarT)
+                answer = [str(eval(NameVarT)) +" "+ str(DataMusic.Audios[rnd_music].artist + " - "+ DataMusic.Audios[rnd_music].title)
+                          ,2
+                          ,DataMusic.Audios[rnd_music].owner_id
+                          ,DataMusic.Audios[rnd_music].id]
+            else:
+                answer = ['Не смог найти музыку вообще... :(',1]
+            
+    
+        except:
+            print("Авторизация не найдена")
+            answer = ['Нуль',0]
+
+    
+        return answer
 
 class BotWords:
 
@@ -70,40 +109,8 @@ class BotWords:
             NameVarT = "a"+str(VarT)
             Info = random.randint(0, 100)
             answer = str(eval(NameVarT)) +" инфа составляет примерно " + str(Info) + "%"
-        elif (template == "\\b[М,м]узыка\\b") or ("\\b[Д\д]ай [М,м]узыка\\b"):
-            try:
-                authorizationFile = open('authorization.txt', 'r')
-                data = authorizationFile.read()
-                data = data.split()
-                vk_login = data[0]
-                vk_password = data[1]
-                vk_appid = data[2]
-                vk_user_id = data[3]
-                vk_state = data[4]
-                authorizationFile.close()
-            
-                vk_sX = vk_api.VkApi(login=vk_login, password=vk_password, captcha_handler=BotService.captcha_handler)
-                try:
-                    vk_sX.auth()
-                except vk_api.AuthError as error_msg:
-                    print(error_msg)
-
-                vkX = vk_audio.VkAudio(vk=vk_sX)
-                DataMusic = vkX.load(user_id)
-                if DataMusic == False:
-                    answer = 'Досуп к твоим аудиозаписям закрыт :('
-                elif DataMusic.Count > 0:
-                    rnd_music = random.randint(1, DataMusic.Count-1)
-                    VarT = random.randint(1, 3)
-                    NameVarT = "a"+str(VarT)
-                    answer = str(eval(NameVarT)) +" "+ str(DataMusic.Audios[rnd_music].artist + " - "+ DataMusic.Audios[rnd_music].title)
-                else:
-                    answer = 'Не смог найти музыку вообще... :('
-                    
-
-            except:
-                print("Авторизация не найдена")
-                answer = 'Нуль'
+        elif (template == "\\b[М,м]узыка\\b") or ("\\b[Д\д]ай [М,м]узыку"):
+            answer = BotSound.SoundData(user_id,a1,a2,a3)[0] 
         else:
             answer = 'Нуль'
         return answer
@@ -121,18 +128,4 @@ class BotService:
         # Пробуем снова отправить запрос с капчей
         return captcha.try_again(key)
 
-    def musicGet(id): # функция будет принимать только id пользователя
-        siteUrl = requests.get('https://vrit.me' + '/audios{0}'.format(id)) # открытие сайта 
-        htmlMusicContent = bs4.BeautifulSoup(siteUrl.text , 'html.parser')
-        allLinks = htmlMusicContent.find_all('a') # выбор всех ссылок
-        allTitles = htmlMusicContent.find_all('div' , attrs={'class':'title'}) # выбор всех названий песен
-        reallyLinks = allLinks[7:-1] # отсев настоящих ссылок
-        i = 0
-        answer = []
-        while  i < len(reallyLinks):
-            value = {'title': allTitles[i+1].getText(), 'link':MUSIC_URL + reallyLinks[i]['href']}
-            answer.append(value)
-            i += 1
-        # создание ответа
-        return answer
         

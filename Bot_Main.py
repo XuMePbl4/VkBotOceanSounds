@@ -1,10 +1,13 @@
 import vk_api #библиотеки вк
+import vk_audio
+import lxml
+import re #Библиотека регулярных выражений
 import time #время
 import random #рандом
 import sqlite3 #для базы данных
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType #Библиотеки бота группы ВК
 
-from Bot_Words import BotWordsInit #класс с ответами
+from Bot_Words import BotWordsInit, BotSound #класс с ответами
 
 #Блок размышлений +
 #Прикрутить базу данных - добавлять туда людей, кому бот что-то писал
@@ -17,14 +20,18 @@ from Bot_Words import BotWordsInit #класс с ответами
 #Блок размышлений -
 
 
-def writemessage(event, vk, botanswer):
+def writemessage(event, vk, botanswer, aattachment):
     FN =  vk.users.get(user_id=event.message.from_id)[0]['first_name'] #Имя изверя
     LN =  vk.users.get(user_id=event.message.from_id)[0]['last_name'] #Фамилия юзверя
     #print(LN + ' ' + FN + ' ' + event.message.text)
     botanswer = FN + ', ' + botanswer #Добавим к ответу имя юзверя. Не рекомендую отвечать через уникальные ссылки/цитирования, чтобы не дергать человека лишний раз
     #print('i am: ' + botanswer)
     #print('')
-    vk.messages.send(random_id = int(time.time()), peer_id = event.message.peer_id, message = botanswer) 
+    if aattachment == 0:
+        vk.messages.send(random_id = int(time.time()), peer_id = event.message.peer_id, message = botanswer) 
+    else:
+        SD = BotSound.SoundData(event.message.from_id,"Ну держи","Ну держи","Ну держи") #Костыль!
+        vk.messages.send(random_id = int(time.time()), peer_id = event.message.peer_id, message = botanswer, attachment =  str("audio"+str(SD[2])+"_"+str(SD[3])))  
     #Метод вк - отправить сообщение. гуглить тут https://vk.com/dev/messages
     #Первый параметр обязательно хотя бы немного уникальный
     #Пир_ид - из какого чата
@@ -89,42 +96,45 @@ while x < 100:
 
                 if event.message.from_id > 0: #Айди ботов меньше нуля. Нужно фильтровать, чтобы не крашился метод получения имени юзверя (на ботов ошибку вк отдает)
 
-                    botanswer = BotWordsInit.report(event.message.text,event.message.from_id) #Получаем ответ от БотВордс 
-                    if botanswer != 'Нуль': #Бот нашел ответ на сообщение в своей базе
-                        if lastword == botanswer: #Если он так же уже отвечал
-                            repeated = repeated + 1 #Значит плюс к счетчику повтора
-                            if (repeated <5): #Если первый раз
+                    if re.search(r'\b[Д\д]ай [М,м]узыку',event.message.text):
+                        writemessage(event, vk, "Ну держи", 1) #отправим в чат
+                    else:
+                        botanswer = BotWordsInit.report(event.message.text,event.message.from_id) #Получаем ответ от БотВордс 
+                        if botanswer != 'Нуль': #Бот нашел ответ на сообщение в своей базе
+                            if lastword == botanswer: #Если он так же уже отвечал
+                                repeated = repeated + 1 #Значит плюс к счетчику повтора
+                                if (repeated <5): #Если первый раз
                                   
-                                if 7 < random.randint(0, 9): #Бахнем шанс на ответ
-                                    lastword = botanswer #Запомним ответ
-                                    writemessage(event, vk, botanswer) #отправим в чат
+                                    if 7 < random.randint(0, 9): #Бахнем шанс на ответ
+                                        lastword = botanswer #Запомним ответ
+                                        writemessage(event, vk, botanswer, 0) #отправим в чат
 
-                                    ##Для отладки в терминале
-                                    #print('До:')
-                                    #if event.message.from_id < 0:
-                                    #    print('до бота')
+                                        ##Для отладки в терминале
+                                        #print('До:')
+                                        #if event.message.from_id < 0:
+                                        #    print('до бота')
+                                        #else:
+                                        #    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
+                                        #print('i am: ' + botanswer)
+                                        #print('')
+
                                     #else:
-                                    #    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
-                                    #print('i am: ' + botanswer)
-                                    #print('')
+                                        #print('Кубики сломались') #не повезло с шансом
+                                elif repeated >5: #если третий раз повтор - сбрасывает счетчик повторов
+                                    repeated = 0
+                            else: #Если новый ответ 
+                                writemessage(event, vk, botanswer,0) #отправим в чат
 
+                                ##Для отладки в терминале
+                                #print('До:')
+                                #if event.message.from_id < 0:
+                                #    print('до бота')
                                 #else:
-                                    #print('Кубики сломались') #не повезло с шансом
-                            elif repeated >5: #если третий раз повтор - сбрасывает счетчик повторов
-                                repeated = 0
-                        else: #Если новый ответ 
-                            writemessage(event, vk, botanswer) #отправим в чат
-
-                            ##Для отладки в терминале
-                            #print('До:')
-                            #if event.message.from_id < 0:
-                            #    print('до бота')
-                            #else:
-                            #    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
-                            #print('i am: ' + botanswer)
-                            #print('')
-                            lastword = botanswer #запомним ответ
-                            repeated = 0 #сбросим повтор
+                                #    print(vk.users.get(user_id=event.message.peer_id)[0]['first_name'])
+                                #print('i am: ' + botanswer)
+                                #print('')
+                                lastword = botanswer #запомним ответ
+                                repeated = 0 #сбросим повтор
                     
             #Другие виды эвентов вк. Проверить можно, отладив метод VkBotEventType
             #elif event.type == VkBotEventType.MESSAGE_REPLY:

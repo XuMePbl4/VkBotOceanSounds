@@ -1,6 +1,7 @@
 import vk_api #библиотеки вк
 import time #время
 import random #рандом
+import sqlite3 #для базы данных
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType #Библиотеки бота группы ВК
 
 from Bot_Words import BotWordsInit #класс с ответами
@@ -30,6 +31,37 @@ def writemessage(event, vk, botanswer):
     #месага - само сообщение
 
 x = 0
+
+#conn = sqlite3.connect('Chinook_Sqlite.sqlite')
+#cur = conn.cursor()
+
+#try:
+#    RegWordsFile = open('RegWords.txt', 'r')
+#except:
+#    print("File RegWords not found")
+
+#try:
+#    OrdWordsFile = open('OrdWords.txt', 'r')
+#except:
+#    print("File not found")
+
+#data = RegWordsFile.read()
+#data = data.split()
+
+#for i in range(0, len(data)):
+#    Name = data[i]
+#    cur.execute('INSERT INTO RegWords (Name) VALUES (?)', (Name,))
+
+#data1 = OrdWordsFile.read()
+#data1 = data1.split()
+
+#for i in range(0, len(data1)):
+#    Name = data1[i]
+#    cur.execute('INSERT INTO OrdWords (Name) VALUES (?)', (Name,))
+
+#conn.commit()
+#conn.close()
+#print("THis is the End!")
 
 while x < 100:
     try:

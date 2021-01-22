@@ -16,33 +16,21 @@ class BotWordsInit:
         # Создаем курсор - это специальный объект который делает запросы и получает их результаты
         cursor = conn.cursor()
 
-        #Инициализация базы сообщений-триггеров
-        #cursor.execute("Select Message FROM Messages WHERE Type = 1") # Делаем SELECT запрос к базе данных, используя обычный SQL-синтаксис
-        #BaseMassive = cursor.fetchall() # Получаем результат сделанного запроса
-
-        #cursor.execute("Select Message FROM Messages WHERE Type = 2") # Делаем SELECT запрос к базе данных, используя обычный SQL-синтаксис
-        #ServiceMassive = cursor.fetchall() # Получаем результат сделанного запроса
-
-        #if message in BaseMassive: #этот способ не сработал, но и хер с ним
-        #    Answer = BaseMessage(message)
-        #elif message in ServiceMassive:
-        #    Answer = ServiceMessage(message)
-        #else:
-        #    Answer = EntertainingMessage(message)
-
-        #sqlstr =  "Select * FROM Messages WHERE message = '"+ message +"'"
-        sqlstr =  "Select * FROM Messages where Template not null"
+        sqlstr =  "Select * FROM Messages where Template not null" #Считываем все шаблоны с базы
         sqlanswer = cursor.execute(sqlstr).fetchall()
-        if len(sqlanswer) >= 1:
-            for x in range(0,len(sqlanswer)-1):
-                if re.search(sqlanswer[x][2],message): 
+
+        if len(sqlanswer) >= 1: #Если шаблоны найдены:
+            for x in range(0,len(sqlanswer)-1): #До конца прогоняем цикл: Проверка сообщения пользователя на шаблон регуляркой
+                if re.search(sqlanswer[x][2],message): #Если найдено сообщение сервисного типа
                     if sqlanswer[x][3] == 2: #Сервисные
-                        Answer = BotWords.ServiceMessage(message,sqlanswer[x][2],sqlanswer[x][4],sqlanswer[x][5],sqlanswer[x][6]) 
-                    elif sqlanswer[x][3] == 3: #Регулярка
-                        #Answer = BotWords.EntertainingMessage(message,sqlanswer[x][2],sqlanswer[x][4],sqlanswer[x][5],sqlanswer[x][6]) #Регулярка
+                        Answer = BotWords.ServiceMessage(message,sqlanswer[x][2],sqlanswer[x][4],sqlanswer[x][5],sqlanswer[x][6]) #Отправляемся в специальную процедуру для сервисника
+                    
+                    elif sqlanswer[x][3] == 3: #Регулярка 
+                        #Если найден обычный тип, то выбираем один из 3 вариантов ответа и заканчиваем цикл досрочно
                         VarT = random.randint(4, 6)
                         Answer = sqlanswer[x][VarT] 
                         break
+                    
                     elif sqlanswer[x][3] == 1: #Резерв
                         Answer = BotWords.BaseMessage(message) 
 
@@ -75,6 +63,3 @@ class BotWords:
             answer = 'Нуль'
         return answer
         
-    def EntertainingMessage(message, template, a1,a2,a3): #Регулярка   
-        
-            return "Нуль"

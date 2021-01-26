@@ -4,14 +4,10 @@ import re #Библиотека регулярных выражений
 #https://habr.com/ru/post/349860/
 import sqlite3 #для базы данных
 
-import time #время
 import vk_api #библиотеки вк
 import vk_audio
 import lxml
 
-import requests
-import bs4
-import json
 
 class BotWordsInit:
 
@@ -114,6 +110,41 @@ class BotWords:
         else:
             answer = 'Нуль'
         return answer
+
+    def RandomWord(wordtype): #Основная процедура класса
+
+        Answer = 'Нуль' #дабы не было рандомных крашей
+
+        # Создаем соединение с нашей базой данных
+        conn = sqlite3.connect('Chinook_Sqlite.sqlite')
+
+        # Создаем курсор - это специальный объект который делает запросы и получает их результаты
+        cursor = conn.cursor()
+
+        if wordtype == 1:
+            psqlstr =  "OrdWords"
+        else:
+            psqlstr =  "RegWords"
+        sqlstr =  'select seq from sqlite_sequence where name = "' + psqlstr+'"'
+        sqlanswer = cursor.execute(sqlstr).fetchall()
+        if len(sqlanswer) >= 1: #Если шаблоны найдены:
+            Wlen = sqlanswer[0][0]
+
+            randomcode = random.randint(0, Wlen-1)
+            sqlstr =  "select Name from "+ psqlstr +" where Code = " + str(randomcode)
+            sqlanswerW = cursor.execute(sqlstr).fetchall()
+            if len(sqlanswerW) >= 1: #Если шаблоны найдены:
+
+                Answer = sqlanswerW[0][0] 
+            else:
+                Answer = "База данных пустая"
+        else: 
+            Answer = "База данных пустая"
+
+        #Не забываем закрыть соединение с базой данных
+        conn.close()
+
+        return Answer
 
 class BotService:
 

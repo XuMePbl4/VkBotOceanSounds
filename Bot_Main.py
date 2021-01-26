@@ -7,13 +7,11 @@ import random #рандом
 import sqlite3 #для базы данных
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType #Библиотеки бота группы ВК
 
-from Bot_Words import BotWordsInit, BotSound #класс с ответами
+from Bot_Words import BotWordsInit, BotSound, BotWords #класс с ответами
 
 #Блок размышлений +
 #Прикрутить базу данных - добавлять туда людей, кому бот что-то писал
 #https://habr.com/ru/post/321510/
-
-#Модифицировать и вынести в отдельную процедурку проверку на нужность отправки сообщения
 
 #Сделать нормально в отдельной процедуре шансы на отправление сообщения и фильтрацию повторов
 
@@ -39,6 +37,7 @@ def writemessage(event, vk, botanswer, aattachment):
 
 x = 0
 
+##НЕ СТИРАТЬ - процедурки на заполнение базы данных базовых слов
 #conn = sqlite3.connect('Chinook_Sqlite.sqlite')
 #cur = conn.cursor()
 
@@ -98,6 +97,10 @@ while x < 100:
 
                     if re.search(r'\b[Д\д]ай [М,м]узыку',event.message.text):
                         writemessage(event, vk, "Ну держи", 1) #отправим в чат
+                    elif re.search(r'\b[Д\д\D\d]ревность',event.message.text):
+                        writemessage(event, vk, BotWords.RandomWord(1), 0) #отправим в чат
+                    elif re.search(r'\b[С\с]ловарик',event.message.text):
+                        writemessage(event, vk, BotWords.RandomWord(0), 0) #отправим в чат
                     else:
                         botanswer = BotWordsInit.report(event.message.text,event.message.from_id) #Получаем ответ от БотВордс 
                         if botanswer != 'Нуль': #Бот нашел ответ на сообщение в своей базе

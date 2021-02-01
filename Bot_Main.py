@@ -69,10 +69,17 @@ x = 0
 #conn.close()
 #print("THis is the End!")
 
+authorizationFile = open('authorization.txt', 'r')
+data = authorizationFile.read()
+data = data.split()
+vk_token = data[2]
+authorizationFile.close()
+
 while x < 100:
     try:
+        
 
-        vk_session = vk_api.VkApi(token='4842ab42fc8ab6aa6860269222be707fe712ab2f417086f766e39e84aeb7e04572610aa3adcb21f663bc7') #Авторизация в вк через сообщество
+        vk_session = vk_api.VkApi(token=vk_token) #Авторизация в вк через сообщество
 
         vk = vk_session.get_api() #Получаем доступ к методам ВК
 
